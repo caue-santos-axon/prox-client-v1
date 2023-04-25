@@ -67,6 +67,8 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 	btn_options.Icon = theme.SettingsIcon()
 	btn_options.Move(fyne.NewPos(424, heightAux))
 	btn_options.Resize(fyne.NewSize(50, 40))
+	btn_options.Importance = widget.LowImportance
+	btn_options.Refresh()
 	heightAux = heightAux + label_status.MinSize().Height + 10
 
 	label_accounts := canvas.NewText("Clientes", color.Black)
@@ -83,6 +85,7 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 	btn_new_account.Resize(fyne.NewSize(50, 30))
 	btn_new_account.Move(fyne.NewPos(424, heightAux))
 	btn_new_account.Importance = widget.LowImportance
+	btn_new_account.Refresh()
 	heightAux = heightAux + btn_new_account.MinSize().Height + 10
 
 	container_accordion := container.NewVScroll(
