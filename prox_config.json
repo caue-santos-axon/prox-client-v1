@@ -1,21 +1,22 @@
 {
- "inboundPath": "C:\\Users\\csantos\\Desktop",
- "backupPath": "none",
- "createdOn": "2023-04-14 11:29:55.1698329 +0000 UTC",
- "updatedOn": "2023-04-14 11:29:55.1698329 +0000 UTC",
- "Key": "",
- "AuthorizedAccounts": [
-  {
-   "name": "Empresa_1",
-   "PortalLogin": "1234",
-   "createdOn": "2023-04-18 11:26:12.1072288 +0000 UTC",
-   "updatedOn": "2023-04-18 11:26:12.1072288 +0000 UTC"
-  },
-  {
-   "name": "Empresa_2",
-   "PortalLogin": "123",
-   "createdOn": "2023-04-20 10:54:05.093481 +0000 UTC",
-   "updatedOn": "2023-04-20 10:54:05.093481 +0000 UTC"
-  }
- ]
+  "inboundPath": "C:\\Users\\csantos\\Desktop",
+  "backupPath": "C:\\Users\\csantos\\Desktop\\Backup",
+  "createdOn": "2023-04-14 11:29:55.1698329 +0000 UTC",
+  "updatedOn": "2023-04-14 11:29:55.1698329 +0000 UTC",
+  "Key": "",
+  "receiveReport": true,
+  "AuthorizedAccounts": [
+    {
+      "name": "Empresa_1",
+      "PortalLogin": "1234",
+      "createdOn": "2023-04-18 11:26:12.1072288 +0000 UTC",
+      "updatedOn": "2023-04-18 11:26:12.1072288 +0000 UTC"
+    },
+    {
+      "name": "Empresa_2",
+      "PortalLogin": "123",
+      "createdOn": "2023-04-20 10:54:05.093481 +0000 UTC",
+      "updatedOn": "2023-04-20 10:54:05.093481 +0000 UTC"
+    }
+  ]
 }

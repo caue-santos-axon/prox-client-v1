@@ -61,7 +61,7 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 		if settingsWindow != nil {
 			settingsWindow.Close()
 		}
-		settingsWindow = s.RenderSettingsWindow(a)
+		settingsWindow = s.RenderSettingsWindow(config, a)
 		fmt.Println("clickou")
 	})
 	btn_options.Icon = theme.SettingsIcon()

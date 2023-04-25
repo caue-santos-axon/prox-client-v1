@@ -25,6 +25,7 @@ type Configs struct {
 	BackupPath         string `json:"backupPath" `
 	CreatedOn          string `json:"createdOn" `
 	UpdatedOn          string `json:"updatedOn" `
+	ReceiveReport      bool   `json:"receiveReport"`
 	Key                string
 	AuthorizedAccounts []Account
 }

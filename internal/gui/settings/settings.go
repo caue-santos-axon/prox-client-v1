@@ -3,6 +3,7 @@ package gui
 import (
 	"fmt"
 	"image/color"
+	"proxclient/internal/settings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -14,7 +15,7 @@ import (
 
 type RenderSettings struct{}
 
-func (r *RenderSettings) RenderSettingsWindow(a fyne.App) fyne.Window {
+func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.App) fyne.Window {
 	w := a.NewWindow("Prox Settings")
 	w.Resize(fyne.NewSize(500, 500))
 	w.SetFixedSize(true)
@@ -48,13 +49,15 @@ func (r *RenderSettings) RenderSettingsWindow(a fyne.App) fyne.Window {
 		if dir != "" {
 			inboundPath_display.SetText(dir)
 			inboundPath_display.Refresh()
+			config.InboundPath = dir
 		}
 
 	})
 	inboundPath_btn.Icon = theme.FolderIcon()
 	inboundPath_btn.Resize(fyne.NewSize(40, 40))
 	inboundPath_btn.Move(fyne.NewPos(440, heightAux))
-
+	inboundPath_btn.Importance = widget.LowImportance
+	inboundPath_btn.Refresh()
 	heightAux = heightAux + inboundPath_display.MinSize().Height + 10
 
 	backupPath_label := canvas.NewText("Diretório para backup de arquivos", color.Black)
@@ -76,12 +79,33 @@ func (r *RenderSettings) RenderSettingsWindow(a fyne.App) fyne.Window {
 		if dir != "" {
 			backupPath_display.SetText(dir)
 			backupPath_display.Refresh()
+			config.BackupPath = dir
 		}
 
 	})
 	backupPath_btn.Icon = theme.FolderIcon()
 	backupPath_btn.Resize(fyne.NewSize(40, 40))
 	backupPath_btn.Move(fyne.NewPos(440, heightAux))
+	backupPath_btn.Importance = widget.LowImportance
+	backupPath_btn.Refresh()
+	heightAux = heightAux + backupPath_btn.MinSize().Height + 10
+
+	report_check := widget.NewCheck("Relatório", func(b bool) {
+		fmt.Println(config.ReceiveReport)
+		config.ReceiveReport = b
+		fmt.Println(config.ReceiveReport)
+	})
+	report_check.Resize(fyne.NewSize(470, 30))
+	report_check.Move(fyne.NewPos(10, heightAux))
+	heightAux = heightAux + report_check.MinSize().Height + 10
+
+	save_btn := widget.NewButton("Salvar", func() {
+		config.Save()
+	})
+	save_btn.Resize(fyne.NewSize(100, 40))
+	save_btn.Move(fyne.NewPos(380, 440))
+	save_btn.Importance = widget.HighImportance
+	save_btn.Refresh()
 
 	wrapperContainer := container.NewWithoutLayout(
 		label_name,
@@ -91,6 +115,8 @@ func (r *RenderSettings) RenderSettingsWindow(a fyne.App) fyne.Window {
 		backupPath_label,
 		backupPath_display,
 		backupPath_btn,
+		report_check,
+		save_btn,
 	)
 
 	w.SetContent(wrapperContainer)
