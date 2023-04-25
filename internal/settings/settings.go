@@ -46,6 +46,16 @@ func (c *Configs) Save() {
 	}
 }
 
+func (c *Configs) Create() error {
+	_, err := os.OpenFile(JSON_FILENAME, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		//log
+		return err
+	}
+
+	return nil
+}
+
 func (cfg *Configs) AddAccount(account Account) {
 	cfg.AuthorizedAccounts = append(cfg.AuthorizedAccounts, account)
 }
