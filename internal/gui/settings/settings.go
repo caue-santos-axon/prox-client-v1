@@ -16,7 +16,7 @@ import (
 type RenderSettings struct{}
 
 func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.App) fyne.Window {
-	w := a.NewWindow("Prox Settings")
+	w := a.NewWindow("Configurações")
 	w.Resize(fyne.NewSize(500, 500))
 	w.SetFixedSize(true)
 	w.CenterOnScreen()
