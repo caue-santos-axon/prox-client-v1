@@ -24,8 +24,6 @@ var accounts = []settings.Account{
 	{Name: "Empresa_5", PortaLogin: "axon"},
 }
 
-var couldStop = false
-
 func main() {
 
 	a := app.New()
