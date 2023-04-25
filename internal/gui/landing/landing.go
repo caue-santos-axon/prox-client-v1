@@ -1,8 +1,10 @@
 package gui
 
 import (
+	"fmt"
 	"image/color"
 	guir "proxclient/internal/gui/register"
+	guis "proxclient/internal/gui/settings"
 	"proxclient/internal/settings"
 
 	"fyne.io/fyne/v2"
@@ -16,6 +18,7 @@ type RenderLanding struct {
 }
 
 var registerWindow fyne.Window
+var settingsWindow fyne.Window
 
 func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool, config *settings.Configs, accounts []settings.Account) fyne.Window {
 
@@ -54,11 +57,16 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 	label_status.Move(fyne.NewPos(10, heightAux))
 
 	btn_options := widget.NewButton("", func() {
-		//Abrir configurações
+		s := guis.RenderSettings{}
+		if settingsWindow != nil {
+			settingsWindow.Close()
+		}
+		settingsWindow = s.RenderSettingsWindow(a)
+		fmt.Println("clickou")
 	})
 	btn_options.Icon = theme.SettingsIcon()
-	btn_options.Move(fyne.NewPos(464, heightAux))
-	btn_options.Resize(fyne.NewSize(0, 40))
+	btn_options.Move(fyne.NewPos(424, heightAux))
+	btn_options.Resize(fyne.NewSize(50, 40))
 	heightAux = heightAux + label_status.MinSize().Height + 10
 
 	label_accounts := canvas.NewText("Clientes", color.Black)
