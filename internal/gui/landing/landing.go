@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"image/color"
 	guir "proxclient/internal/gui/register"
-	guis "proxclient/internal/gui/settings"
+	gui "proxclient/internal/gui/settings"
 	"proxclient/internal/settings"
 
 	"fyne.io/fyne/v2"
@@ -57,7 +57,7 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 	label_status.Move(fyne.NewPos(10, heightAux))
 
 	btn_options := widget.NewButton("", func() {
-		s := guis.RenderSettings{}
+		s := gui.RenderSettings{}
 		if settingsWindow != nil {
 			settingsWindow.Close()
 		}
