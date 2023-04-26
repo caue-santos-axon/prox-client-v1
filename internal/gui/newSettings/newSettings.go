@@ -13,6 +13,14 @@ import (
 	"github.com/sqweek/dialog"
 )
 
+var accounts = []settings.Account{
+	{Name: "Empresa_1", PortaLogin: "axon"},
+	{Name: "Empresa_2", PortaLogin: "axon"},
+	{Name: "Empresa_3", PortaLogin: "axon"},
+	{Name: "Empresa_4", PortaLogin: "axon"},
+	{Name: "Empresa_5", PortaLogin: "axon"},
+}
+
 type RenderNewSettings struct{}
 
 func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a fyne.App, key string) fyne.Window {
@@ -77,7 +85,7 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	inboundPath_btn.Refresh()
 	heightAux = heightAux + 30
 
-	inboundPath_error := canvas.NewText("* Campo obrigatório", color.RGBA{R: 255, G: 0, B: 0, A: 255})
+	inboundPath_error := canvas.NewText("", color.RGBA{R: 255, G: 0, B: 0, A: 255})
 	inboundPath_error.TextSize = 10
 	inboundPath_error.Alignment = fyne.TextAlignLeading
 	inboundPath_error.Resize(fyne.NewSize(470, 10))
@@ -114,7 +122,7 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	backupPath_btn.Refresh()
 	heightAux = heightAux + 30
 
-	backupPath_error := canvas.NewText("* Campo obrigatório", color.RGBA{R: 255, G: 0, B: 0, A: 255})
+	backupPath_error := canvas.NewText("", color.RGBA{R: 255, G: 0, B: 0, A: 255})
 	backupPath_error.TextSize = 10
 	backupPath_error.Alignment = fyne.TextAlignLeading
 	backupPath_error.Resize(fyne.NewSize(470, 10))
@@ -131,8 +139,24 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	heightAux = heightAux + report_check.MinSize().Height + 10
 
 	save_btn := widget.NewButton("Salvar", func() {
+		isValid := true
+		if inboundPath_display.Text == "..." {
+			isValid = false
+			inboundPath_error.Text = "* Campo obrigatório"
+		}
 
-		config.Save()
+		if backupPath_display.Text == "..." {
+			isValid = false
+			backupPath_error.Text = "* Campo obrigatório"
+		}
+
+		if isValid {
+			config.Save()
+
+			w.Close()
+
+		}
+
 	})
 	save_btn.Resize(fyne.NewSize(100, 40))
 	save_btn.Move(fyne.NewPos(380, 440))
@@ -212,7 +236,6 @@ func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyn
 
 	save_btn := widget.NewButton("Salvar", func() {
 		r.GetSettings(key_entry.Text, config, a)
-
 		w.Close()
 	})
 	save_btn.Resize(fyne.NewSize(100, 40))
@@ -229,7 +252,7 @@ func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyn
 
 	w.SetContent(wrapperContainer)
 
-	w.ShowAndRun()
+	w.Show()
 
 	return w
 }

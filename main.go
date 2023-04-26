@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	guins "proxclient/internal/gui/settings"
 	guis "proxclient/internal/gui/startApp"
 	"proxclient/internal/settings"
 	"time"
@@ -37,9 +36,7 @@ func main() {
 		guis.StartApp(a, config, accounts)
 
 	} else {
-		ns := guins.RenderNewSettings{}
-		ns.RenderValidateWindow(config, a)
-
+		guis.StartApp(a, config, accounts)
 	}
 
 }
