@@ -36,7 +36,7 @@ func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.A
 	inboundPath_label.Move(fyne.NewPos(24, heightAux+10))
 	heightAux = heightAux + inboundPath_label.MinSize().Height + 10
 
-	inboundPath_display := widget.NewLabel("...")
+	inboundPath_display := widget.NewLabel(config.InboundPath)
 	inboundPath_display.Resize(fyne.NewSize(470, 40))
 	inboundPath_display.Move(fyne.NewPos(10, heightAux))
 
@@ -66,7 +66,7 @@ func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.A
 	backupPath_label.Move(fyne.NewPos(24, heightAux+10))
 	heightAux = heightAux + backupPath_label.MinSize().Height + 10
 
-	backupPath_display := widget.NewLabel("...")
+	backupPath_display := widget.NewLabel(config.BackupPath)
 	backupPath_display.Resize(fyne.NewSize(470, 40))
 	backupPath_display.Move(fyne.NewPos(10, heightAux))
 
@@ -97,10 +97,16 @@ func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.A
 	})
 	report_check.Resize(fyne.NewSize(470, 30))
 	report_check.Move(fyne.NewPos(10, heightAux))
-	heightAux = heightAux + report_check.MinSize().Height + 10
+	report_check.Checked = config.ReceiveReport
+	report_check.Refresh()
+	//heightAux = heightAux + report_check.MinSize().Height + 10
 
 	save_btn := widget.NewButton("Salvar", func() {
-		config.Save()
+		err := config.Save()
+		if err != nil {
+			panic(err)
+		}
+		w.Close()
 	})
 	save_btn.Resize(fyne.NewSize(100, 40))
 	save_btn.Move(fyne.NewPos(380, 440))

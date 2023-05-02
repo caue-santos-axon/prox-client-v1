@@ -1,7 +1,8 @@
 package settings
 
 import (
-	"encoding/json"
+	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -10,7 +11,8 @@ import (
 
 var dir string
 
-const JSON_FILENAME = "prox_config.json"
+const JSON_FILENAME = "prox_config.txt"
+const PASSPHRASE = "proxccp"
 
 func init() {
 	workingDir, err := os.Getwd()
@@ -37,13 +39,17 @@ type Account struct {
 	UpdatedOn  string `json:"updatedOn" `
 }
 
-func (c *Configs) Save() {
-	config, _ := json.MarshalIndent(c, "", " ")
+func (c *Configs) Save() error {
 
-	err := ioutil.WriteFile(filepath.Join(dir, JSON_FILENAME), config, 0644)
+	config := c.toByte()
+	text, _ := c.encrypt(config.Bytes())
+
+	err := ioutil.WriteFile(filepath.Join(dir, JSON_FILENAME), text, 0644)
 	if err != nil {
 		log.Println(err)
+		return err
 	}
+	return nil
 }
 
 func (c *Configs) Create() error {
@@ -56,20 +62,24 @@ func (c *Configs) Create() error {
 	return nil
 }
 
-func (cfg *Configs) AddAccount(account Account) {
-	cfg.AuthorizedAccounts = append(cfg.AuthorizedAccounts, account)
+func (c *Configs) AddAccount(account Account) {
+	c.AuthorizedAccounts = append(c.AuthorizedAccounts, account)
 }
 
-func (cfg *Configs) RecieveStoragedData() error {
-	data, err := ioutil.ReadFile("./prox_config.json")
+func (c *Configs) RecieveStoragedData() error {
+	data, err := ioutil.ReadFile(JSON_FILENAME)
 	if err != nil {
 		return err
 	}
 
-	err = json.Unmarshal(data, cfg)
+	text, err := c.decrypt(data)
 	if err != nil {
-		return err
+		//log
 	}
+	byteBuffer := bytes.NewBuffer([]byte(text))
+	c.toStruct(*byteBuffer)
+
+	fmt.Println(c.InboundPath)
 	return nil
 }
 
