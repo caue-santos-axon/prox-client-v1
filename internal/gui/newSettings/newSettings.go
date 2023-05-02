@@ -212,17 +212,18 @@ func (r *RenderNewSettings) GetSettings(key string, config *settings.Configs, a 
 
 func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyne.App) fyne.Window {
 	w := a.NewWindow("Ativar/Buscar")
-	w.Resize(fyne.NewSize(400, 300))
+	w.Resize(fyne.NewSize(400, 160))
 	w.SetFixedSize(true)
 	w.CenterOnScreen()
 
 	heightAux := float32(20)
 
-	key_label := canvas.NewText("Chave", color.Black)
-	key_label.TextSize = 12
+	key_label := canvas.NewText("Chave do produto", color.Black)
+	key_label.TextSize = 18
 	key_label.Alignment = fyne.TextAlignLeading
 	key_label.Resize(fyne.NewSize(370, 40))
 	key_label.Move(fyne.NewPos(10, heightAux))
+	heightAux = heightAux + key_label.MinSize().Height + 10
 
 	key_entry := widget.NewEntry()
 	key_entry.Resize(fyne.NewSize(370, 40))
@@ -233,15 +234,17 @@ func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyn
 	key_error.Alignment = fyne.TextAlignLeading
 	key_error.Resize(fyne.NewSize(370, 40))
 	key_error.Move(fyne.NewPos(10, heightAux))
+	heightAux = heightAux + key_entry.MinSize().Height + 14
 
 	save_btn := widget.NewButton("Salvar", func() {
 		r.GetSettings(key_entry.Text, config, a)
 		w.Close()
 	})
 	save_btn.Resize(fyne.NewSize(100, 40))
-	save_btn.Move(fyne.NewPos(280, 240))
 	save_btn.Importance = widget.HighImportance
+	save_btn.Move(fyne.NewPos(280, heightAux))
 	save_btn.Resize(fyne.NewSize(100, 40))
+	save_btn.Refresh()
 
 	wrapperContainer := container.NewWithoutLayout(
 		key_label,
