@@ -3,9 +3,11 @@ package settings
 import (
 	"bytes"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
+	"proxclient/internal/logging"
+
+	"github.com/sirupsen/logrus"
 )
 
 var dir string
@@ -46,7 +48,9 @@ func (c *Configs) Save() error {
 
 	err := ioutil.WriteFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME), text, 0644)
 	if err != nil {
-		log.Println(err)
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't write to file")
 		return err
 	}
 	return nil
@@ -55,7 +59,9 @@ func (c *Configs) Save() error {
 func (c *Configs) Create() error {
 	_, err := os.OpenFile(JSON_FILENAME, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		//log
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't open file")
 		return err
 	}
 
@@ -69,12 +75,17 @@ func (c *Configs) AddAccount(account Account) {
 func (c *Configs) RecieveStoragedData() error {
 	data, err := ioutil.ReadFile(JSON_FILENAME)
 	if err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't read file")
 		return err
 	}
 
 	text, err := c.decrypt(data)
 	if err != nil {
-		//log
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't decrypt file")
 		return err
 	}
 	byteBuffer := bytes.NewBuffer([]byte(text))
@@ -95,6 +106,9 @@ func (cfg *Configs) Contains(account Account) bool {
 func ValidateConfigs() bool {
 	info, err := os.Stat(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if os.IsNotExist(err) {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't validate file status")
 		return false
 	}
 	return !info.IsDir()

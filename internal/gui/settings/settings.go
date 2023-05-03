@@ -3,6 +3,7 @@ package gui
 import (
 	"fmt"
 	"image/color"
+	"proxclient/internal/logging"
 	"proxclient/internal/settings"
 
 	"fyne.io/fyne/v2"
@@ -10,6 +11,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+	"github.com/sirupsen/logrus"
 	"github.com/sqweek/dialog"
 )
 
@@ -43,7 +45,9 @@ func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.A
 	inboundPath_btn := widget.NewButton("", func() {
 		dir, err := dialog.Directory().Title("Selecione um Diretório").Browse()
 		if err != nil {
-			fmt.Println(err)
+			logging.Log.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Coundn't open filepick dialog")
 		}
 
 		if dir != "" {
@@ -73,7 +77,9 @@ func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.A
 	backupPath_btn := widget.NewButton("", func() {
 		dir, err := dialog.Directory().Title("Selecione um Diretório").Browse()
 		if err != nil {
-			fmt.Println(err)
+			logging.Log.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Coundn't open filepick dialog")
 		}
 
 		if dir != "" {
@@ -104,7 +110,9 @@ func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.A
 	save_btn := widget.NewButton("Salvar", func() {
 		err := config.Save()
 		if err != nil {
-			panic(err)
+			logging.Log.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Coundn't save file")
 		}
 		w.Close()
 	})

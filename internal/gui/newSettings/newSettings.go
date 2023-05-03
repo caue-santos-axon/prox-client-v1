@@ -3,6 +3,7 @@ package gui
 import (
 	"fmt"
 	"image/color"
+	"proxclient/internal/logging"
 	"proxclient/internal/settings"
 
 	"fyne.io/fyne/v2"
@@ -10,6 +11,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+	"github.com/sirupsen/logrus"
 	"github.com/sqweek/dialog"
 )
 
@@ -68,7 +70,9 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	inboundPath_btn := widget.NewButton("", func() {
 		dir, err := dialog.Directory().Title("Selecione um Diretório").Browse()
 		if err != nil {
-			fmt.Println(err)
+			logging.Log.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Coundn't open filepick dialog")
 		}
 
 		if dir != "" {
@@ -105,7 +109,9 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	backupPath_btn := widget.NewButton("", func() {
 		dir, err := dialog.Directory().Title("Selecione um Diretório").Browse()
 		if err != nil {
-			fmt.Println(err)
+			logging.Log.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Coundn't open filepick dialog")
 		}
 
 		if dir != "" {
