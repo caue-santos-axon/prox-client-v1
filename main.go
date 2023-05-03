@@ -1,12 +1,14 @@
 package main
 
 import (
-	"fmt"
 	guis "proxclient/internal/gui/startApp"
+	"proxclient/internal/logging"
+	"proxclient/internal/setboot"
 	"proxclient/internal/settings"
 	"time"
 
 	"fyne.io/fyne/v2/app"
+	"github.com/sirupsen/logrus"
 )
 
 var config = &settings.Configs{
@@ -24,6 +26,15 @@ var accounts = []settings.Account{
 	{Name: "Empresa_5", PortaLogin: "axon"},
 }
 
+func init() {
+	err := setboot.SetStartWithOS()
+	if err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't register app to start with OS")
+	}
+}
+
 func main() {
 
 	a := app.New()
@@ -31,7 +42,9 @@ func main() {
 	if settings.ValidateConfigs() {
 		err := config.RecieveStoragedData()
 		if err != nil {
-			fmt.Println(err)
+			logging.Log.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Coundn't getting storage data")
 		}
 		guis.StartApp(a, config, accounts)
 
