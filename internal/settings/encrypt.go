@@ -9,6 +9,9 @@ import (
 	"encoding/gob"
 	"encoding/hex"
 	"io"
+	"proxclient/internal/logging"
+
+	"github.com/sirupsen/logrus"
 )
 
 func createHash() []byte {
@@ -18,18 +21,39 @@ func createHash() []byte {
 	return dst
 }
 
-// Encrypt encrypts data using the passphrase.
-func (c *Configs) encrypt(data []byte) ([]byte, error) {
-	block, err := aes.NewCipher(createHash())
+func setCipher() (cipher.AEAD, error) {
+	key := createHash()
+	block, err := aes.NewCipher(key)
 	if err != nil {
-		return []byte{}, err
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't set new cipher")
+		return nil, err
 	}
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return []byte{}, err
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't set new gmc")
+		return nil, err
+	}
+
+	return gcm, nil
+}
+
+// Encrypt encrypts data using the passphrase.
+func (c *Configs) encrypt(data []byte) ([]byte, error) {
+	gcm, err := setCipher()
+	if err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't set chiper")
 	}
 	nonce := make([]byte, gcm.NonceSize())
 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't read/get byte len")
 		return []byte{}, err
 	}
 	ciphertext := gcm.Seal(nonce, nonce, data, nil)
@@ -38,19 +62,14 @@ func (c *Configs) encrypt(data []byte) ([]byte, error) {
 
 // Decrypt decrypts data using the passphrase.
 func (c *Configs) decrypt(data []byte) ([]byte, error) {
-	key := createHash()
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return []byte{}, err
-	}
-	gcm, err := cipher.NewGCM(block)
-	if err != nil {
-		return []byte{}, err
-	}
+	gcm, err := setCipher()
 	nonceSize := gcm.NonceSize()
 	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
 	plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Coundn't open gcm")
 		return []byte{}, err
 	}
 	return plaintext, nil
