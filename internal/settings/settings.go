@@ -2,7 +2,6 @@ package settings
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -12,6 +11,7 @@ import (
 var dir string
 
 const JSON_FILENAME = "prox_config.txt"
+const JSON_FILEPATH = "C:\\Windows\\system32"
 const PASSPHRASE = "proxccp"
 
 func init() {
@@ -44,7 +44,7 @@ func (c *Configs) Save() error {
 	config := c.toByte()
 	text, _ := c.encrypt(config.Bytes())
 
-	err := ioutil.WriteFile(filepath.Join(dir, JSON_FILENAME), text, 0644)
+	err := ioutil.WriteFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME), text, 0644)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -75,11 +75,11 @@ func (c *Configs) RecieveStoragedData() error {
 	text, err := c.decrypt(data)
 	if err != nil {
 		//log
+		return err
 	}
 	byteBuffer := bytes.NewBuffer([]byte(text))
 	c.toStruct(*byteBuffer)
 
-	fmt.Println(c.InboundPath)
 	return nil
 }
 
@@ -93,7 +93,7 @@ func (cfg *Configs) Contains(account Account) bool {
 }
 
 func ValidateConfigs() bool {
-	info, err := os.Stat(filepath.Join(dir, JSON_FILENAME))
+	info, err := os.Stat(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if os.IsNotExist(err) {
 		return false
 	}
