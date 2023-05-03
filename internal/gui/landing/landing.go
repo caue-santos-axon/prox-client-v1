@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"image/color"
 	guir "proxclient/internal/gui/register"
 	gui "proxclient/internal/gui/settings"
@@ -48,21 +47,28 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 	label_name.Move(fyne.NewPos(10, heightAux))
 	heightAux = heightAux + label_name.MinSize().Height + 10
 
-	label_status := widget.NewLabel("Status: Online")
+	icon_status := canvas.NewCircle(color.NRGBA{R: 0, G: 255, B: 0, A: 255})
+	icon_status.Resize(fyne.NewSize(12, 12))
+	icon_status.Move(fyne.NewPos(10, heightAux+10)) // "+10" to fit circle behavior
+
+	label_status := widget.NewLabel("Online")
+	label_status.Resize(fyne.NewSize(240, 30))
+	label_status.Move(fyne.NewPos(25, heightAux))
+
 	if !status {
-		label_status.SetText("Status: Offline")
+		icon_status.FillColor = color.NRGBA{R: 255, G: 0, B: 0, A: 255}
+		icon_status.Refresh()
+		label_status.SetText("Offline")
 		label_status.Refresh()
 	}
-	label_status.Resize(fyne.NewSize(240, 30))
-	label_status.Move(fyne.NewPos(10, heightAux))
 
 	btn_options := widget.NewButton("", func() {
 		s := gui.RenderSettings{}
 		if settingsWindow != nil {
 			settingsWindow.Close()
 		}
+
 		settingsWindow = s.RenderSettingsWindow(config, a)
-		fmt.Println("clickou")
 	})
 	btn_options.Icon = theme.SettingsIcon()
 	btn_options.Move(fyne.NewPos(424, heightAux))
@@ -97,6 +103,7 @@ func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, status bool
 
 	wrapperContainer := container.NewWithoutLayout(
 		label_name,
+		icon_status,
 		label_status,
 		btn_options,
 		label_accounts,

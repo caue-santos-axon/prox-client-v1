@@ -3,10 +3,13 @@ package gui
 import (
 	gui "proxclient/internal/gui/landing"
 	guins "proxclient/internal/gui/newSettings"
+	"proxclient/internal/logging"
+	"proxclient/internal/monitor"
 	"proxclient/internal/settings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
+	"github.com/sirupsen/logrus"
 )
 
 var landingWindow fyne.Window
@@ -22,7 +25,17 @@ func StartApp(a fyne.App, config *settings.Configs, accounts []settings.Account)
 					if landingWindow != nil {
 						landingWindow.Close()
 					}
-					landingWindow = r.RenderLandingWindow(a, "Prox Client", true, config, accounts)
+
+					status, err := monitor.IsOnline()
+					if err != nil {
+						logging.Log.WithFields(logrus.Fields{
+							"err": err,
+						}).Error("Coundn't get service status")
+						landingWindow = r.RenderLandingWindow(a, "Prox Client", false, config, accounts)
+					} else {
+						landingWindow = r.RenderLandingWindow(a, "Prox Client", status, config, accounts)
+					}
+
 				} else {
 					ns := guins.RenderNewSettings{}
 					if newStttingsWindow != nil {
