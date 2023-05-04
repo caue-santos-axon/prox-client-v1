@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"image/color"
 	"proxclient/internal/logging"
 	"proxclient/internal/settings"
@@ -23,23 +22,23 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	w.Resize(fyne.NewSize(500, 500))
 	w.CenterOnScreen()
 
-	heightAux := float32(20)
+	yAxisAuxliar := float32(20)
 
 	key_label := canvas.NewText("Chave", color.Black)
 	key_label.TextSize = 12
 	key_label.Alignment = fyne.TextAlignLeading
 	key_label.Resize(fyne.NewSize(470, 40))
-	key_label.Move(fyne.NewPos(10, heightAux))
+	key_label.Move(fyne.NewPos(10, yAxisAuxliar))
 
 	key_entry := widget.NewEntry()
 	key_entry.Resize(fyne.NewSize(470, 40))
-	key_entry.Move(fyne.NewPos(10, heightAux))
+	key_entry.Move(fyne.NewPos(10, yAxisAuxliar))
 
 	key_error := canvas.NewText("", color.RGBA{R: 255, G: 0, B: 0, A: 255})
 	key_error.TextSize = 10
 	key_error.Alignment = fyne.TextAlignLeading
 	key_error.Resize(fyne.NewSize(470, 40))
-	key_error.Move(fyne.NewPos(10, heightAux))
+	key_error.Move(fyne.NewPos(10, yAxisAuxliar))
 
 	if key != "" {
 		key_entry.SetText(key)
@@ -47,17 +46,17 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 		key_entry.Refresh()
 	}
 
-	heightAux = heightAux + key_error.MinSize().Height + 30
+	yAxisAuxliar = yAxisAuxliar + key_error.MinSize().Height + 30
 
 	inboundPath_label := canvas.NewText("Diretório para recebimento de arquivos", color.Black)
 	inboundPath_label.Resize(fyne.NewSize(480, 20))
 	inboundPath_label.TextSize = 10
-	inboundPath_label.Move(fyne.NewPos(24, heightAux+10))
-	heightAux = heightAux + inboundPath_label.MinSize().Height + 10
+	inboundPath_label.Move(fyne.NewPos(24, yAxisAuxliar+10))
+	yAxisAuxliar = yAxisAuxliar + inboundPath_label.MinSize().Height + 10
 
 	inboundPath_display := widget.NewLabel("...")
 	inboundPath_display.Resize(fyne.NewSize(470, 40))
-	inboundPath_display.Move(fyne.NewPos(10, heightAux))
+	inboundPath_display.Move(fyne.NewPos(10, yAxisAuxliar))
 
 	inboundPath_btn := widget.NewButton("", func() {
 		dir, err := dialog.Directory().Title("Selecione um Diretório").Browse()
@@ -76,27 +75,27 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	})
 	inboundPath_btn.Icon = theme.FolderIcon()
 	inboundPath_btn.Resize(fyne.NewSize(40, 40))
-	inboundPath_btn.Move(fyne.NewPos(440, heightAux))
+	inboundPath_btn.Move(fyne.NewPos(440, yAxisAuxliar))
 	inboundPath_btn.Importance = widget.LowImportance
 	inboundPath_btn.Refresh()
-	heightAux = heightAux + 30
+	yAxisAuxliar = yAxisAuxliar + 30
 
 	inboundPath_error := canvas.NewText("", color.RGBA{R: 255, G: 0, B: 0, A: 255})
 	inboundPath_error.TextSize = 10
 	inboundPath_error.Alignment = fyne.TextAlignLeading
 	inboundPath_error.Resize(fyne.NewSize(470, 10))
-	inboundPath_error.Move(fyne.NewPos(24, heightAux))
-	heightAux = heightAux + inboundPath_error.MinSize().Height + 10
+	inboundPath_error.Move(fyne.NewPos(24, yAxisAuxliar))
+	yAxisAuxliar = yAxisAuxliar + inboundPath_error.MinSize().Height + 10
 
 	backupPath_label := canvas.NewText("Diretório para backup de arquivos", color.Black)
 	backupPath_label.Resize(fyne.NewSize(480, 20))
 	backupPath_label.TextSize = 10
-	backupPath_label.Move(fyne.NewPos(24, heightAux+10))
-	heightAux = heightAux + backupPath_label.MinSize().Height + 10
+	backupPath_label.Move(fyne.NewPos(24, yAxisAuxliar+10))
+	yAxisAuxliar = yAxisAuxliar + backupPath_label.MinSize().Height + 10
 
 	backupPath_display := widget.NewLabel("...")
 	backupPath_display.Resize(fyne.NewSize(470, 40))
-	backupPath_display.Move(fyne.NewPos(10, heightAux))
+	backupPath_display.Move(fyne.NewPos(10, yAxisAuxliar))
 
 	backupPath_btn := widget.NewButton("", func() {
 		dir, err := dialog.Directory().Title("Selecione um Diretório").Browse()
@@ -115,26 +114,24 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	})
 	backupPath_btn.Icon = theme.FolderIcon()
 	backupPath_btn.Resize(fyne.NewSize(40, 40))
-	backupPath_btn.Move(fyne.NewPos(440, heightAux))
+	backupPath_btn.Move(fyne.NewPos(440, yAxisAuxliar))
 	backupPath_btn.Importance = widget.LowImportance
 	backupPath_btn.Refresh()
-	heightAux = heightAux + 30
+	yAxisAuxliar = yAxisAuxliar + 30
 
 	backupPath_error := canvas.NewText("", color.RGBA{R: 255, G: 0, B: 0, A: 255})
 	backupPath_error.TextSize = 10
 	backupPath_error.Alignment = fyne.TextAlignLeading
 	backupPath_error.Resize(fyne.NewSize(470, 10))
-	backupPath_error.Move(fyne.NewPos(24, heightAux))
-	heightAux = heightAux + backupPath_error.MinSize().Height + 10
+	backupPath_error.Move(fyne.NewPos(24, yAxisAuxliar))
+	yAxisAuxliar = yAxisAuxliar + backupPath_error.MinSize().Height + 10
 
 	report_check := widget.NewCheck("Relatório", func(b bool) {
-		fmt.Println(config.ReceiveReport)
 		config.ReceiveReport = b
-		fmt.Println(config.ReceiveReport)
 	})
 	report_check.Resize(fyne.NewSize(470, 30))
-	report_check.Move(fyne.NewPos(10, heightAux))
-	heightAux = heightAux + report_check.MinSize().Height + 10
+	report_check.Move(fyne.NewPos(10, yAxisAuxliar))
+	//heightAux = heightAux + report_check.MinSize().Height + 10
 
 	save_btn := widget.NewButton("Salvar", func() {
 		isValid := true
@@ -178,9 +175,7 @@ func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a 
 	)
 
 	w.SetContent(wrapperContainer)
-
 	w.Show()
-
 	return w
 
 }
@@ -199,10 +194,8 @@ func (r *RenderNewSettings) GetSettings(key string, config *settings.Configs, a 
 	// }
 
 	config.Key = key //simulate user found
-
 	config.Create()
 	config.Save()
-
 	r.RenderNewSettingsWindow(config, a, key)
 
 	return nil
@@ -252,8 +245,6 @@ func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyn
 	)
 
 	w.SetContent(wrapperContainer)
-
 	w.Show()
-
 	return w
 }

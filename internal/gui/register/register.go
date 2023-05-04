@@ -27,7 +27,7 @@ func (r *RenderRegister) RenderNewAccountWindow(config *settings.Configs, accoun
 		}
 	}
 
-	heightAux := float32(20)
+	yAxisAuxliar := float32(20)
 
 	label_select_company := widget.NewLabel("Cliente")
 	label_select_company.TextStyle = fyne.TextStyle{Bold: true}
@@ -41,8 +41,8 @@ func (r *RenderRegister) RenderNewAccountWindow(config *settings.Configs, accoun
 	}
 	container_select_company := container.NewVBox(label_select_company, select_company)
 	container_select_company.Resize(fyne.NewSize(356, 0))
-	container_select_company.Move(fyne.NewPos(10, heightAux))
-	heightAux = heightAux + container_select_company.MinSize().Height + 10
+	container_select_company.Move(fyne.NewPos(10, yAxisAuxliar))
+	yAxisAuxliar = yAxisAuxliar + container_select_company.MinSize().Height + 10
 
 	label_entry_portalLogin := widget.NewLabel("Chave de acesso")
 
@@ -51,8 +51,8 @@ func (r *RenderRegister) RenderNewAccountWindow(config *settings.Configs, accoun
 	feedback_entry_portalLogin := widget.NewLabel("")
 	container_entry_portalLogin := container.NewVBox(label_entry_portalLogin, entry_portalLogin, feedback_entry_portalLogin)
 	container_entry_portalLogin.Resize(fyne.NewSize(356, 0))
-	container_entry_portalLogin.Move(fyne.NewPos(10, heightAux))
-	heightAux = heightAux + container_entry_portalLogin.MinSize().Height + 10
+	container_entry_portalLogin.Move(fyne.NewPos(10, yAxisAuxliar))
+	yAxisAuxliar = yAxisAuxliar + container_entry_portalLogin.MinSize().Height + 10
 
 	btn_submit := widget.NewButton("Resgistrar", func() {
 		newCompany := &settings.Account{
@@ -68,7 +68,7 @@ func (r *RenderRegister) RenderNewAccountWindow(config *settings.Configs, accoun
 		registerWindow.Close()
 	})
 	btn_submit.Resize(fyne.NewSize(356, 40))
-	btn_submit.Move(fyne.NewPos(10, heightAux))
+	btn_submit.Move(fyne.NewPos(10, yAxisAuxliar))
 	//heightAux = heightAux + btn_submit.MinSize().Height +10
 
 	registerWindow.SetContent(

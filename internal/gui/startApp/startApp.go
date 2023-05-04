@@ -31,9 +31,9 @@ func StartApp(a fyne.App, config *settings.Configs, accounts []settings.Account)
 						logging.Log.WithFields(logrus.Fields{
 							"err": err,
 						}).Error("Coundn't get service status")
-						landingWindow = r.RenderLandingWindow(a, "Prox Client", false, config, accounts)
+						landingWindow = r.RenderLandingWindow(a, "Prox Client", false, false, config, accounts)
 					} else {
-						landingWindow = r.RenderLandingWindow(a, "Prox Client", status, config, accounts)
+						landingWindow = r.RenderLandingWindow(a, "Prox Client", status, false, config, accounts)
 					}
 
 				} else {
