@@ -15,14 +15,6 @@ import (
 	"github.com/sqweek/dialog"
 )
 
-var accounts = []settings.Account{
-	{Name: "Empresa_1", PortaLogin: "axon"},
-	{Name: "Empresa_2", PortaLogin: "axon"},
-	{Name: "Empresa_3", PortaLogin: "axon"},
-	{Name: "Empresa_4", PortaLogin: "axon"},
-	{Name: "Empresa_5", PortaLogin: "axon"},
-}
-
 type RenderNewSettings struct{}
 
 func (r *RenderNewSettings) RenderNewSettingsWindow(config *settings.Configs, a fyne.App, key string) fyne.Window {
