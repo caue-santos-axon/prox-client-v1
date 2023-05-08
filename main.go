@@ -1,8 +1,10 @@
 package main
 
 import (
+	"os"
 	guis "proxclient/internal/gui/startApp"
 	"proxclient/internal/logging"
+	"proxclient/internal/mutex"
 	"proxclient/internal/setboot"
 	"proxclient/internal/settings"
 	"time"
@@ -32,6 +34,14 @@ func init() {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Coundn't register app to start with OS")
+	}
+
+	_, err = mutex.CreateMutex("Global\\proxGUI")
+	if err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"msg": err,
+		}).Error("Init error")
+		os.Exit(0)
 	}
 }
 
