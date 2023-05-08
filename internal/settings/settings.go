@@ -2,7 +2,6 @@ package settings
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"proxclient/internal/logging"
@@ -46,7 +45,7 @@ func (c *Configs) Save() error {
 	config := c.toByte()
 	text, _ := c.encrypt(config.Bytes())
 
-	err := ioutil.WriteFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME), text, 0644)
+	err := os.WriteFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME), text, 0644)
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
@@ -73,7 +72,7 @@ func (c *Configs) AddAccount(account Account) {
 }
 
 func (c *Configs) RecieveStoragedData() error {
-	data, err := ioutil.ReadFile(JSON_FILENAME)
+	data, err := os.ReadFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
