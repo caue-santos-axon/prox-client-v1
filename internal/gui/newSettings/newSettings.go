@@ -219,15 +219,19 @@ func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyn
 	key_entry := widget.NewEntry()
 	key_entry.Resize(fyne.NewSize(370, 40))
 	key_entry.Move(fyne.NewPos(10, heightAux))
+	heightAux = heightAux + key_entry.MinSize().Height + 14
 
 	key_error := canvas.NewText("", color.RGBA{R: 255, G: 0, B: 0, A: 255})
 	key_error.TextSize = 10
 	key_error.Alignment = fyne.TextAlignLeading
 	key_error.Resize(fyne.NewSize(370, 40))
-	key_error.Move(fyne.NewPos(10, heightAux))
-	heightAux = heightAux + key_entry.MinSize().Height + 14
+	key_error.Move(fyne.NewPos(20, heightAux))
 
 	save_btn := widget.NewButton("Salvar", func() {
+		if len(key_entry.Text) < 1 {
+			key_error.Text = "* Campo obrigatório"
+			return
+		}
 		r.GetSettings(key_entry.Text, config, a)
 		w.Close()
 	})
