@@ -7,6 +7,7 @@ import (
 	"golang.org/x/sys/windows/svc/mgr"
 )
 
+// IsOnline check if Prox Service is running
 func IsOnline() (bool, error) {
 	m, err := mgr.Connect()
 	if err != nil {

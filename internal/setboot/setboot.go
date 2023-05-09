@@ -6,6 +6,7 @@ import (
 	"github.com/emersion/go-autostart"
 )
 
+// It register Prox Client to start with the OS(windows)
 func SetStartWithOS() error {
 	path, err := os.Executable()
 	if err != nil {

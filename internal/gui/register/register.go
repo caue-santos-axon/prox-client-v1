@@ -12,6 +12,7 @@ import (
 type RenderRegister struct {
 }
 
+// render new window to register a new client
 func (r *RenderRegister) RenderNewAccountWindow(config *settings.Configs, accounts []settings.Account, a fyne.App, list *widget.List) fyne.Window {
 	var AuthorizedAccounts []string
 

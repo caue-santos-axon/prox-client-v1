@@ -19,6 +19,7 @@ type RenderLanding struct {
 var registerWindow fyne.Window
 var settingsWindow fyne.Window
 
+// Renders the lading page
 func (r *RenderLanding) RenderLandingWindow(a fyne.App, name string, service_status bool, server_status bool, config *settings.Configs, accounts []settings.Account) fyne.Window {
 
 	w := a.NewWindow("Prox Client")

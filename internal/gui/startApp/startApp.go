@@ -15,6 +15,7 @@ import (
 var landingWindow fyne.Window
 var newStttingsWindow fyne.Window
 
+// Run prox client
 func StartApp(a fyne.App, config *settings.Configs, accounts []settings.Account) {
 
 	if desk, ok := a.(desktop.App); ok {

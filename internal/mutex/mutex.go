@@ -10,6 +10,7 @@ var (
 	procCreateMutex = kernel32.NewProc("CreateMutexW")
 )
 
+// Create a mutex to assure that only one instance of Prox Client will open
 func CreateMutex(name string) (uintptr, error) {
 	p, err := syscall.UTF16PtrFromString(name)
 	if err != nil {
