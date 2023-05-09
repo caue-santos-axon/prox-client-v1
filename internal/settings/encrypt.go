@@ -63,6 +63,9 @@ func (c *Configs) encrypt(data []byte) ([]byte, error) {
 // Decrypt decrypts data using the passphrase.
 func (c *Configs) decrypt(data []byte) ([]byte, error) {
 	gcm, err := setCipher()
+	if err != nil {
+		return []byte{}, err
+	}
 	nonceSize := gcm.NonceSize()
 	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
 	plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
