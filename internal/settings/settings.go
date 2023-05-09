@@ -9,18 +9,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var dir string
-
 const JSON_FILENAME = "prox_config.txt"
 const JSON_FILEPATH = "C:\\Windows\\system32"
 const PASSPHRASE = "proxccp"
 
 func init() {
-	workingDir, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	dir = workingDir
+
 }
 
 type Configs struct {
@@ -40,6 +34,7 @@ type Account struct {
 	UpdatedOn  string `json:"updatedOn" `
 }
 
+// Save settgins on prox_client.txt file in system32 directory
 func (c *Configs) Save() error {
 
 	config := c.toByte()
@@ -55,6 +50,7 @@ func (c *Configs) Save() error {
 	return nil
 }
 
+// Create a prox_client.txt file in system32 directory
 func (c *Configs) Create() error {
 	_, err := os.OpenFile(JSON_FILENAME, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -67,10 +63,12 @@ func (c *Configs) Create() error {
 	return nil
 }
 
+// Add an client account to settings struct
 func (c *Configs) AddAccount(account Account) {
 	c.AuthorizedAccounts = append(c.AuthorizedAccounts, account)
 }
 
+// Get settings from prox_client.txt file in system32 directory
 func (c *Configs) RecieveStoragedData() error {
 	data, err := os.ReadFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if err != nil {
@@ -93,6 +91,7 @@ func (c *Configs) RecieveStoragedData() error {
 	return nil
 }
 
+// Checks if client register as an athorized
 func (cfg *Configs) Contains(account Account) bool {
 	for _, c := range cfg.AuthorizedAccounts {
 		if c.Name == account.Name {
@@ -102,6 +101,7 @@ func (cfg *Configs) Contains(account Account) bool {
 	return false
 }
 
+// Checks if the is a prox_client.txt file system32 directory
 func ValidateConfigs() bool {
 	info, err := os.Stat(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if os.IsNotExist(err) {
