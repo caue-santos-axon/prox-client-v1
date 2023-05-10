@@ -7,27 +7,29 @@ import (
 	"golang.org/x/sys/windows/svc/mgr"
 )
 
+const SERVICE_NAME = "ProxClientv5"
+
 // 'IsOnline' checks if Prox Service is running
 func IsOnline() (bool, error) {
 	m, err := mgr.Connect()
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't set mrg service monitor")
+		}).Error("Monitor Error")
 		return false, err
 	}
 
-	s, err := m.OpenService("ProxClientv5")
+	s, err := m.OpenService(SERVICE_NAME)
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't open service")
+		}).Error("Monitor Error")
 		return false, err
 	}
 	status, err := s.Query()
 	logging.Log.WithFields(logrus.Fields{
 		"err": err,
-	}).Error("Coundn't get current status server")
+	}).Error("Monitor Error")
 
 	if status.State != 4 {
 		return false, nil

@@ -44,7 +44,7 @@ func (c *Configs) Save() error {
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't write to file")
+		}).Error("Settings error")
 		return err
 	}
 	return nil
@@ -56,7 +56,7 @@ func (c *Configs) Create() error {
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't open file")
+		}).Error("Setting Error")
 		return err
 	}
 
@@ -74,7 +74,7 @@ func (c *Configs) RecieveStoragedData() error {
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't read file")
+		}).Error("Settings Error")
 		return err
 	}
 
@@ -82,7 +82,7 @@ func (c *Configs) RecieveStoragedData() error {
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't decrypt file")
+		}).Error("Settings Error")
 		return err
 	}
 	byteBuffer := bytes.NewBuffer([]byte(text))
@@ -106,8 +106,8 @@ func ValidateConfigs() bool {
 	info, err := os.Stat(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if os.IsNotExist(err) {
 		logging.Log.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Coundn't validate file status")
+			"msg": err,
+		}).Error("Settings error")
 		return false
 	}
 	return !info.IsDir()

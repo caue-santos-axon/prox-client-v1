@@ -25,16 +25,10 @@ func setCipher() (cipher.AEAD, error) {
 	key := createHash()
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		logging.Log.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Coundn't set new cipher")
 		return nil, err
 	}
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		logging.Log.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Coundn't set new gmc")
 		return nil, err
 	}
 
@@ -47,13 +41,13 @@ func (c *Configs) encrypt(data []byte) ([]byte, error) {
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't set chiper")
+		}).Error("Encrypt Error")
 	}
 	nonce := make([]byte, gcm.NonceSize())
 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't read/get byte len")
+		}).Error("Encrypt Error")
 		return []byte{}, err
 	}
 	ciphertext := gcm.Seal(nonce, nonce, data, nil)
@@ -64,6 +58,9 @@ func (c *Configs) encrypt(data []byte) ([]byte, error) {
 func (c *Configs) decrypt(data []byte) ([]byte, error) {
 	gcm, err := setCipher()
 	if err != nil {
+		logging.Log.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Encrypt Error")
 		return []byte{}, err
 	}
 	nonceSize := gcm.NonceSize()
@@ -72,7 +69,7 @@ func (c *Configs) decrypt(data []byte) ([]byte, error) {
 	if err != nil {
 		logging.Log.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Coundn't open gcm")
+		}).Error("Encrypt Error")
 		return []byte{}, err
 	}
 	return plaintext, nil

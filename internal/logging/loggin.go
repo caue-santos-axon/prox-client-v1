@@ -1,7 +1,6 @@
 package logging
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -16,7 +15,6 @@ func init() {
 	if err != nil {
 		Log.Info("Failed to log to file, using default stderr, err: %v", err)
 	} else {
-		fmt.Println("File opened with succes")
 		Log.Out = file
 	}
 }
