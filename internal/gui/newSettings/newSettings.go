@@ -203,7 +203,7 @@ func (r *RenderNewSettings) GetSettings(key string, config *settings.Configs, a 
 	return nil
 }
 
-// Render page to recieve the product key
+// Render page to receive the product key
 func (r *RenderNewSettings) RenderValidateWindow(config *settings.Configs, a fyne.App) fyne.Window {
 	w := a.NewWindow("Ativar/Buscar")
 	w.Resize(fyne.NewSize(400, 160))

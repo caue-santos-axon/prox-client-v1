@@ -17,7 +17,7 @@ import (
 
 type RenderSettings struct{}
 
-// render changing settings window
+// Render changing settings window
 func (r *RenderSettings) RenderSettingsWindow(config *settings.Configs, a fyne.App) fyne.Window {
 	w := a.NewWindow("Configurações")
 	w.Resize(fyne.NewSize(500, 500))

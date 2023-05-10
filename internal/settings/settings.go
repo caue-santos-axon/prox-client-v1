@@ -34,7 +34,7 @@ type Account struct {
 	UpdatedOn  string `json:"updatedOn" `
 }
 
-// Save settgins on prox_client.txt file in system32 directory
+// Save settings on prox_client.txt file in the system32 directory
 func (c *Configs) Save() error {
 
 	config := c.toByte()
@@ -50,7 +50,7 @@ func (c *Configs) Save() error {
 	return nil
 }
 
-// Create a prox_client.txt file in system32 directory
+// Create a prox_client.txt file in the system32 directory
 func (c *Configs) Create() error {
 	_, err := os.OpenFile(JSON_FILENAME, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -68,7 +68,7 @@ func (c *Configs) AddAccount(account Account) {
 	c.AuthorizedAccounts = append(c.AuthorizedAccounts, account)
 }
 
-// Get settings from prox_client.txt file in system32 directory
+// Get settings from prox_client.txt file in the system32 directory
 func (c *Configs) RecieveStoragedData() error {
 	data, err := os.ReadFile(filepath.Join(JSON_FILEPATH, JSON_FILENAME))
 	if err != nil {
@@ -91,7 +91,7 @@ func (c *Configs) RecieveStoragedData() error {
 	return nil
 }
 
-// Checks if client register as an athorized
+// Checks if the client is registered as an authorized
 func (cfg *Configs) Contains(account Account) bool {
 	for _, c := range cfg.AuthorizedAccounts {
 		if c.Name == account.Name {
